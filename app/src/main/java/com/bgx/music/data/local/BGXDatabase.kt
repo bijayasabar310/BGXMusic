@@ -20,7 +20,7 @@ import com.bgx.music.data.local.entity.*
         CustomArtwork::class
     ],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class BGXDatabase : RoomDatabase() {
 
