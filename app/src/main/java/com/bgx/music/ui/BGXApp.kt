@@ -8,7 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -18,11 +17,15 @@ import com.bgx.music.ui.navigation.BottomNavDestination
 import com.bgx.music.ui.navigation.Routes
 import com.bgx.music.ui.screens.nowplaying.NowPlayingScreen
 import com.bgx.music.ui.navigation.BGXNavHost
+import com.bgx.music.ui.viewmodel.LibraryViewModel
 import com.bgx.music.ui.viewmodel.PlayerViewModel
 
 @Composable
 fun BGXApp() {
     AudioPermissionGate {
+        val libraryViewModel: LibraryViewModel = hiltViewModel()
+        LaunchedEffect(Unit) { libraryViewModel.syncLibraryOnce() }
+
         val navController = rememberNavController()
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = backStackEntry?.destination?.route

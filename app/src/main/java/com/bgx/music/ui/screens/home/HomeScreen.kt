@@ -35,7 +35,10 @@ fun HomeScreen(
             title = "No music found",
             subtitle = "We could not find any audio files on this device yet. Add some music or pull to rescan.",
             icon = Icons.Filled.LibraryMusic,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            action = {
+                Button(onClick = { viewModel.refreshLibrary() }) { Text("Scan for music") }
+            }
         )
         return
     }

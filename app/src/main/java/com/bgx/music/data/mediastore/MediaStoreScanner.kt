@@ -25,7 +25,11 @@ class MediaStoreScanner @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private val collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+    private val collection =
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q)
+            MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+        else
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
     private val projection = arrayOf(
         MediaStore.Audio.Media._ID,
@@ -48,7 +52,7 @@ class MediaStoreScanner @Inject constructor(
 
     private val selection = buildString {
         append("${MediaStore.Audio.Media.IS_MUSIC} != 0")
-        append(" AND ${MediaStore.Audio.Media.DURATION} >= 15000")
+        append(" AND (${MediaStore.Audio.Media.DURATION} IS NULL OR ${MediaStore.Audio.Media.DURATION} = 0 OR ${MediaStore.Audio.Media.DURATION} >= 15000)")
     }
 
     suspend fun scan(excludedFolderPaths: Set<String>): ScanResult = withContext(Dispatchers.IO) {
