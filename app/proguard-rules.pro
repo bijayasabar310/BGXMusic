@@ -1,0 +1,5 @@
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
+-keep class androidx.media3.** { *; }
+-keep class dagger.hilt.** { *; }
+-keep class * extends dagger.hilt.android.HiltAndroidApp
